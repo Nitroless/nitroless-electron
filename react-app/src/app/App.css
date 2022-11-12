@@ -1,0 +1,101 @@
+.App {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+}
+
+.mainContent {
+  margin-left: 72px;
+  margin-right: 12px;
+  padding-top: 1.4rem;
+  padding-bottom: unset;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+
+.home, .repo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: "Uni Sans";
+  font-weight: 800;
+  font-size: 44px;
+  text-align: center;
+  font-style: italic;
+  width: 100%;
+}
+
+.logoContainer img {
+  width: 40px;
+}
+
+.homeButtons {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 90%;
+  padding: 1rem;
+  background-color: var(--backgroundSecondaryColorAlpha);
+  border-radius: var(--borderRadius);
+  margin-bottom: 1rem;
+}
+
+.container.dark {
+  background-color: var(--backgroundTertiaryColorAlpha);
+}
+
+.btn {
+  background-color: var(--backgroundColor);
+  border-radius: var(--borderRadius);
+  color: var(--textColor);
+  border: none;
+  padding: 0.5rem;
+  width: 5rem;
+  margin: 0 0.3rem;
+  transition: all 250ms ease;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn.primary:hover, .btn.primary.active {
+  background-color: var(--primary-color);
+}
+
+.btn.success:hover, .btn.success.active {
+  background-color: var(--success-color);
+}
+
+.btn.danger:hover, .btn.danger.active {
+  background-color: var(--danger-color);
+}
+
+.container .title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-weight: bold;
+}
+
+.title i {
+  margin-right: 0.3rem;
+}

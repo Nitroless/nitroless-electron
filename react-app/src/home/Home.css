@@ -1,0 +1,22 @@
+.socials {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.socials i {
+    margin: 0 0.3rem;
+}
+
+.socials .socialBrand {
+    padding: 0.5rem;
+    margin-right: 1rem;
+    transition: all 250ms ease;
+    border-radius: var(--borderRadius);
+}
+
+.socials .socialBrand:hover {
+    cursor: pointer;
+    background-color: var(--backgroundColorAlpha);
+}

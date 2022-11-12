@@ -1,0 +1,65 @@
+.sidebar-item {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin: 0.4rem;
+    flex: 1 0 auto;
+}
+
+.sidebar-item:last-child {
+    margin-bottom: 2rem;
+}
+
+.sidebar-item .active-indicator {
+    position: absolute;
+    margin-right: 62px;
+    border-radius: var(--borderRadius);
+    background-color: var(--textColor);
+    width: 3px;
+    height: 32px;
+    transform: scaleY(0);
+    transition: all 250ms ease;
+    pointer-events: none;
+}
+
+.sidebar-item:hover .active-indicator {
+    transform: scaleY(0.5);
+    border-radius: 99rem;
+}
+
+.sidebar-item.active .active-indicator {
+    transform: scaleY(1);
+}
+
+.sidebar-item .sidebar-icon {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--backgroundSecondaryColorAlpha);
+    justify-content: center;
+    align-items: center;
+    border-radius: 99rem;
+}
+
+.sidebar-item.success .sidebar-icon {
+    background-color: var(--success-color);
+}
+
+.sidebar-item .sidebar-icon img, .sidebar-item .sidebar-icon i {
+    text-align: center;
+    width: 48px;
+    height: 48px;
+    transition: border-radius 250ms ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 99rem;
+}
+
+.sidebar-item.active .sidebar-icon img, .sidebar-item:hover .sidebar-icon img,
+.sidebar-item.active .sidebar-icon i, .sidebar-item:hover .sidebar-icon i,
+.sidebar-item.active .sidebar-icon, .sidebar-item:hover .sidebar-icon  {
+    border-radius: var(--borderRadius);
+}

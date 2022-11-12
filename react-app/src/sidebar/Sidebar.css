@@ -1,0 +1,23 @@
+.sidebar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 72px;
+    height: calc(512px - 1rem);
+    padding-top: 1rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.divider {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    width: 32px;
+    height: 1px;
+    border-radius: var(--borderRadius);
+    background-color: var(--textColor);
+    opacity: 0.2;
+    margin: 0.5rem 0;
+    flex: 1 0 auto;
+}
