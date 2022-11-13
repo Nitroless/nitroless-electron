@@ -10,7 +10,7 @@
 }
 
 .socials .socialBrand {
-    padding: 0.5rem;
+    padding: 0.3rem;
     margin-right: 1rem;
     transition: all 250ms ease;
     border-radius: var(--borderRadius);
@@ -19,4 +19,47 @@
 .socials .socialBrand:hover {
     cursor: pointer;
     background-color: var(--backgroundColorAlpha);
+}
+
+.credits .credit {
+    padding: 1rem;
+}
+
+.credits .credit .creditContainer {
+    display: flex;
+}
+
+.credits .credit .creditContainer img {
+    width: 60px;
+    height: 60px;
+    border-radius: 99rem;
+    margin-right: 1rem;
+    background-color: var(--backgroundColor);
+}
+
+.credits .credit .creditContainer .creditInformation {
+    display: flex;
+    flex-direction: column;
+}
+
+.creditContainer .creditInformation .creditUserName {
+    font-weight: 900;
+    font-size: 1.2rem;
+}
+
+.creditContainer .creditInformation .creditByLine {
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.creditContainer .creditInformation .creditLinks .creditLink {
+    margin-bottom: 0.5rem;
+}
+
+.creditContainer .creditInformation .creditLinks .creditLink i {
+    margin-right: 0.3rem;
+}
+
+.creditContainer .creditInformation .creditLinks .creditLink:hover {
+    cursor: pointer;
 }

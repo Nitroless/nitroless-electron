@@ -1,5 +1,6 @@
 const { BrowserWindow } = require('electron-acrylic-window');
-const { app, shell, Tray, Menu, screen, ipcMain } = require('electron');
+const { app, shell, Tray, Menu, screen, ipcMain, dialog } = require('electron');
+
 const isDev = require('electron-is-dev');
 
 const trayWindow = require("electron-tray-window");
@@ -41,8 +42,9 @@ function createWindow() {
 		webPreferences: {
 			nodeIntegration: true,
 			enableRemoteModule: true,
-			contextIsolation: false,
-            webSecurity: false
+			contextIsolation: true,
+            webSecurity: false,
+            preload: path.join(__dirname, "react-app/public/preload.js")
 		},
 		vibrancy: vibrancy,
 	})
@@ -54,7 +56,9 @@ function createWindow() {
 		shell.openExternal(details.url)
 		return { action: 'deny' }
 	})
+}
 
+function init() {
     ipcMain.on("exit", () => {
         app.exit();
     })
@@ -63,11 +67,16 @@ function createWindow() {
         const win = BrowserWindow.fromWebContents(e.sender);
         win.hide();
     });
-}
 
-function init() {
+    ipcMain.handle("openSite", (e, args) => {
+        const { url } = args;
+        shell.openExternal(url);
+    })
+
     createWindow();
     let tray = new Tray(path.join(__dirname, 'TrayIcon.png'));
+
+    console.log(__dirname)
 
     setTimeout(() => {
         trayWindow.setOptions({
@@ -128,3 +137,37 @@ app.on('activate', () => {
 		createWindow()
 	}
 })
+
+let deeplinkingUrl;
+
+if (isDev && process.platform === 'win32') {
+    // Set the path of electron.exe and your app.
+    // These two additional parameters are only available on windows.
+    // Setting this is required to get this working in dev mode.
+    app.setAsDefaultProtocolClient('nitroless', process.execPath, [
+      path.resolve(process.argv[1])
+    ]);
+  } else {
+    app.setAsDefaultProtocolClient('nitroless');
+  }
+  
+  // Force single application instance
+  const gotTheLock = app.requestSingleInstanceLock();
+  
+  if (!gotTheLock) {
+    app.quit();
+    return;
+  } else {
+    app.on('second-instance', (e, argv) => {
+      if (process.platform !== 'darwin') {
+        // Find the arg that is our custom protocol url and store it
+        deeplinkingUrl = argv.find((arg) => arg.startsWith('nitroless://'));
+        console.log(deeplinkingUrl.split('nitroless://add-repository/?url=')[1]);
+      }
+  
+      if (window) {
+        if (window.isMinimized()) window.restore();
+        window.focus();
+      }
+    });
+  }
