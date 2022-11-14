@@ -1,5 +1,5 @@
 {
-  "name": "nitroless-electron",
+  "name": "nitroless",
   "version": "1.0.0",
   "description": "Nitroless made with electron",
   "main": "index.js",

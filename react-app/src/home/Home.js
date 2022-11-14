@@ -42,15 +42,15 @@ const Home = ({homeActive}) => {
                     </div>
                     <div className="container">
                         <div className="content socials">
-                            <div className="socialBrand github" onClick={(e) => window.api.openSite({ url: "https://github.com/Nitroless" }) }>
+                            <div className="socialBrand github" onClick={(e) => window.api.post("openSite", "https://github.com/Nitroless") }>
                                 <i className="fa-brands fa-github"></i>
                                 GitHub
                             </div>
-                            <div className="socialBrand source" onClick={(e) => window.api.openSite({ url: "https://github.com/Nitroless/nitroless-electron" }) }>
+                            <div className="socialBrand source" onClick={(e) => window.api.post("openSite", "https://github.com/Nitroless/nitroless-electron")}>
                                 <i className="fa-solid fa-link"></i>
                                 Source Code
                             </div>
-                            <div className="socialBrand source" onClick={(e) => window.api.openSite({ url: "https://twitter.com/nitroless_" }) }>
+                            <div className="socialBrand source" onClick={(e) => window.api.post("openSite", "https://twitter.com/nitroless_") }>
                                 <i className="fa-brands fa-twitter"></i>
                                 Twitter
                             </div>
@@ -70,15 +70,15 @@ const Home = ({homeActive}) => {
                                         <span className='creditUserName'>Alpha_Stream</span>
                                         <span className='creditByLine'>Founder and Designer</span>
                                         <div className='creditLinks'>
-                                            <div className='creditLink' onClick={ (e) => window.api.openSite({ url: "https://alphastream.weebly.com/" }) }>
+                                            <div className='creditLink' onClick={ (e) => window.api.post("openSite", "https://alphastream.weebly.com/") }>
                                                 <i className='fa fa-link'></i>
                                                 <span>Portfolio</span>
                                             </div>
-                                            <div className='creditLink' onClick={(e) => window.api.openSite({ url: "https://github.com/TheAlphaStream/" }) }>
+                                            <div className='creditLink' onClick={(e) => window.api.post("openSite", "https://github.com/TheAlphaStream/") }>
                                                 <i className='fa-brands fa-github'></i>
                                                 <span>TheAlphaStream</span>
                                             </div>
-                                            <div className='creditLink' onClick={(e) => window.api.openSite({ url: "https://twitter.com/Kutarin_/" }) }>
+                                            <div className='creditLink' onClick={(e) => window.api.post("openSite", "https://twitter.com/Kutarin_/") }>
                                                 <i className='fa-brands fa-twitter'></i>
                                                 <span>@Kutarin_</span>
                                             </div>
@@ -93,15 +93,15 @@ const Home = ({homeActive}) => {
                                         <span className='creditUserName'>ParasKCD</span>
                                         <span className='creditByLine'>Web, iOS and macOS Developer</span>
                                         <div className='creditLinks'>
-                                            <div className='creditLink' onClick={(e) => window.api.openSite({ url: "https://paraskcd.com/" }) }>
+                                            <div className='creditLink' onClick={(e) => window.api.post("openSite", "https://paraskcd.com/") }>
                                                 <i className='fa fa-link'></i>
                                                 <span>Portfolio</span>
                                             </div>
-                                            <div className='creditLink' onClick={(e) => window.api.openSite({ url: "https://github.com/paraskcd1315/" }) }>
+                                            <div className='creditLink' onClick={(e) => window.api.post("openSite", "https://github.com/paraskcd1315/") }>
                                                 <i className='fa-brands fa-github'></i>
                                                 <span>paraskcd1315</span>
                                             </div>
-                                            <div className='creditLink' onClick={(e) => window.api.openSite({ url: "https://twitter.com/ParasKCD" }) }>
+                                            <div className='creditLink' onClick={(e) => window.api.post("openSite", "https://twitter.com/ParasKCD") }>
                                                 <i className='fa-brands fa-twitter'></i>
                                                 <span>@ParasKCD</span>
                                             </div>
@@ -116,15 +116,15 @@ const Home = ({homeActive}) => {
                                         <span className='creditUserName'>LLSC12</span>
                                         <span className='creditByLine'>iOS and macOS Developer</span>
                                         <div className='creditLinks'>
-                                            <div className='creditLink' onClick={(e) => window.api.openSite({ url: "https://llsc12.github.io/" }) }>
+                                            <div className='creditLink' onClick={(e) => window.api.post("openSite", "https://llsc12.github.io/") }>
                                                 <i className='fa fa-link'></i>
                                                 <span>Portfolio</span>
                                             </div>
-                                            <div className='creditLink' onClick={(e) => window.api.openSite({ url: "https://github.com/llsc12/" }) }>
+                                            <div className='creditLink' onClick={(e) => window.api.post("openSite", "https://github.com/llsc12/") }>
                                                 <i className='fa-brands fa-github'></i>
                                                 <span>llsc12</span>
                                             </div>
-                                            <div className='creditLink' onClick={(e) => window.api.openSite({ url: "https://twitter.com/llsc121" }) }>
+                                            <div className='creditLink' onClick={(e) => window.api.post("openSite", "https://twitter.com/llsc121") }>
                                                 <i className='fa-brands fa-twitter'></i>
                                                 <span>@llsc121</span>
                                             </div>
@@ -139,11 +139,11 @@ const Home = ({homeActive}) => {
                                         <span className='creditUserName'>Superbro</span>
                                         <span className='creditByLine'>iOS and macOS Adviser, Quality Control</span>
                                         <div className='creditLinks'>
-                                            <div className='creditLink' onClick={(e) => window.api.openSite({ url: "https://github.com/Superbro9/" }) }>
+                                            <div className='creditLink' onClick={(e) => window.api.post("openSite", "https://github.com/Superbro9/") }>
                                                 <i className='fa-brands fa-github'></i>
                                                 <span>Superbro9</span>
                                             </div>
-                                            <div className='creditLink' onClick={(e) => window.api.openSite({ url: "https://twitter.com/suuperbro/" }) }>
+                                            <div className='creditLink' onClick={(e) => window.api.post("openSite", "https://twitter.com/suuperbro/") }>
                                                 <i className='fa-brands fa-twitter'></i>
                                                 <span>@suuperbro</span>
                                             </div>

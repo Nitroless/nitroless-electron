@@ -36,7 +36,7 @@ function createWindow() {
         show: false,
         backgroundColor: "#36393f70",
 		title: "Nitroless",
-        icon: __dirname + '/Nitroless.png',
+        icon: path.join(__dirname, "Nitroless.png"),
 		autoHideMenuBar: true,
         skipTaskbar: true,
 		webPreferences: {
@@ -44,12 +44,15 @@ function createWindow() {
 			enableRemoteModule: true,
 			contextIsolation: true,
             webSecurity: false,
-            preload: path.join(__dirname, "react-app/public/preload.js")
+            preload: path.join(__dirname, "build/preload.js")
 		},
 		vibrancy: vibrancy,
 	})
 
     isDev ? window.loadURL('http://localhost:3000') : window.loadFile(path.resolve('./build/index.html'))
+
+    //Test Build
+    //window.loadFile(path.resolve('./build/index.html'))
 
 	// Open links in browser
 	window.webContents.setWindowOpenHandler((details) => {
@@ -60,7 +63,39 @@ function createWindow() {
 
 function init() {
     ipcMain.on("exit", () => {
-        app.exit();
+        window.hide();
+        let display = screen.getPrimaryDisplay();
+        let width = display.bounds.width;
+        let height = display.bounds.height;
+
+        const win = new BrowserWindow({
+            width: 300,
+            height: 200,
+            x: width - 400,
+            y: height - 275,
+            skipTaskbar: true,
+            frame: false,
+            show: true,
+            backgroundColor: "#36393f70",
+            title: "Quit Nitroless?",
+            icon: __dirname + '/Nitroless.png',
+            autoHideMenuBar: true,
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: true,
+                preload: path.join(__dirname, "build/quitAppPreload.js")
+            }
+        });
+
+        win.loadFile(path.resolve('./build/quit-app.html'));
+
+        ipcMain.on("closeWindow", (event, args) => {
+            win.destroy();
+        });
+
+        ipcMain.on("exitApp", (event, args) => {
+            app.exit();
+        });
     })
 
     ipcMain.on("minimize", (e) => {
@@ -68,9 +103,8 @@ function init() {
         win.hide();
     });
 
-    ipcMain.handle("openSite", (e, args) => {
-        const { url } = args;
-        shell.openExternal(url);
+    ipcMain.on("openSite", (e, args) => {
+        shell.openExternal(args);
     })
 
     createWindow();
@@ -103,7 +137,8 @@ function init() {
                         width: 300,
                         height: 200,
                         x: width - 400,
-                        y: height - 250,
+                        y: height - 275,
+                        skipTaskbar: true,
                         frame: false,
                         show: true,
                         backgroundColor: "#36393f70",
@@ -112,11 +147,20 @@ function init() {
                         autoHideMenuBar: true,
                         webPreferences: {
 							nodeIntegration: true,
-							contextIsolation: false
+							contextIsolation: true,
+                            preload: path.join(__dirname, "build/quitAppPreload.js")
 						}
                     });
 
-                    win.loadFile(path.resolve('quit-app.html'));
+                    win.loadFile(path.resolve('./build/quit-app.html'));
+
+                    ipcMain.on("closeWindow", (event, args) => {
+                        win.destroy();
+                    });
+
+                    ipcMain.on("exitApp", (event, args) => {
+                        app.exit();
+                    });
                 }
             }
         ])
@@ -162,7 +206,40 @@ if (isDev && process.platform === 'win32') {
       if (process.platform !== 'darwin') {
         // Find the arg that is our custom protocol url and store it
         deeplinkingUrl = argv.find((arg) => arg.startsWith('nitroless://'));
-        console.log(deeplinkingUrl.split('nitroless://add-repository/?url=')[1]);
+        const newRepo = deeplinkingUrl.split('nitroless://add-repository/?url=')[1];
+
+        let display = screen.getPrimaryDisplay();
+        let width = display.bounds.width;
+        let height = display.bounds.height;
+
+        const win = new BrowserWindow({
+            width: 300,
+            height: 200,
+            x: width - 400,
+            y: height - 275,
+            skipTaskbar: true,
+            frame: false,
+            show: true,
+            backgroundColor: "#36393f70",
+            title: "Add Repository",
+            icon: __dirname + '/Nitroless.png',
+            autoHideMenuBar: true,
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: true,
+                preload: path.join(__dirname, "build/addRepoPreload.js")
+            }
+        });
+
+        ipcMain.on("closeWindow", (event, args) => {
+            win.destroy();
+        });
+
+        win.loadFile(path.resolve('./build/add-repo.html'));
+
+        win.webContents.on('did-finish-load', () => {
+            win.webContents.send('getRepo', newRepo);
+        });
       }
   
       if (window) {

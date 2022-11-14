@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url(https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap);
+        @import url(https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap);
+        
+        @font-face {
+            font-family: 'Uni Sans';
+            /* src: url('./assets/fonts/uni-sans/Uni\ Sans\ Heavy.otf'); */
+            src: url('../react-app/src/assets/fonts/uni-sans/Uni\ Sans\ Heavy.otf');
+            font-weight: 800;
+        }
+        @font-face {
+            font-family: 'Uni Sans';
+            src: url('../react-app/src/assets/fonts/uni-sans/Uni\ Sans\ Heavy\ Italic.otf');
+            font-weight: 800;
+            font-style: italic;
+        }
+        @font-face {
+            font-family: 'Uni Sans';
+            src: url('../react-app/src/assets/fonts/uni-sans/Uni\ Sans\ Thin.otf');
+            font-weight: 200;
+        }
+
+        :root {
+            --borderRadius: 8px;
+            --textColor: hsl(0,calc(1*0%),100%);
+            --backgroundColor: hsl(220,calc(1*7.7%),22.9%);
+            --backgroundSecondaryColor: hsl(223,calc(1*6.9%),19.8%);
+            --backgroundTertiaryColor: hsl(216,calc(1*7.2%),13.5%);
+            --backgroundColorAlpha: hsla(220,calc(1*7.7%),22.9%, 0.4);
+            --backgroundSecondaryColorAlpha: hsla(223,calc(1*6.9%),19.8%, 0.4);
+            --backgroundTertiaryColorAlpha: hsla(216,calc(1*7.2%),13.5%, 0.4);
+            --primary-color: #5865F2;
+            --success-color: #57F287;
+            --danger-color: #ED4245;
+            --warning-color: #FEE75C;
+        }
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+            sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+        .add-repository {
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 200px;
+            width: 300px;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        .add-repository .inputContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        input {
+            background-color: var(--backgroundColorAlpha);
+            border: none;
+            border-radius: var(--borderRadius);
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            width: 80vw;
+            color: var(--textColor);
+        }
+        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+            color: var(--textColor);
+            opacity: 0.5; /* Firefox */
+        }
+
+        :-ms-input-placeholder { /* Internet Explorer 10-11 */
+            color: var(--textColor);;
+        }
+
+        ::-ms-input-placeholder { /* Microsoft Edge */
+            color: var(--textColor);;
+        }
+        h4 {
+            font-family: 'Uni Sans';
+            font-weight: 800;
+            font-style: italic;
+        }
+        .buttons {
+            display: flex;
+        }
+        .btn {
+            background-color: var(--backgroundColor);
+            border-radius: var(--borderRadius);
+            color: var(--textColor);
+            border: none;
+            padding: 0.5rem;
+            width: 5rem;
+            margin: 0 0.3rem;
+            transition: all 250ms ease;
+            margin: 0.25rem;
+        }
+        .btn:hover {
+            cursor: pointer;
+        }
+        .btn.primary:hover, .btn.primary.active {
+            background-color: var(--primary-color);
+        }
+        .btn.success:hover, .btn.success.active {
+            background-color: var(--success-color);
+        }
+        .btn.danger:hover, .btn.danger.active {
+            background-color: var(--danger-color);
+        }
+    </style>
+    <title>Add Repository</title>
+</head>
+<body>
+    <div class="add-repository">
+        <div class="inputContainer">
+            <h4>Add Repository</h4>
+            <input type="text" class="repoURL" placeholder="Enter Repository URL Here...">
+            <div class="buttons">
+                <button class="btn primary addRepo">Add Repo</button>
+                <button class="btn danger">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.api.get("getRepo", (data) => {
+            console.log(`Received ${data} from main process`);
+            document.getElementsByClassName('repoURL')[0].value = data && data[data.length - 1] === "/" ? data : data + "/";
+        });
+
+        for(let i = 0; i < document.getElementsByClassName("btn").length; i++) {
+            if (document.getElementsByClassName("btn")[i].className.includes('addRepo')) {
+                document.getElementsByClassName("btn")[i].addEventListener("click", (e) => {
+                    const url = document.getElementsByClassName('repoURL')[0].value;
+                    e.preventDefault();
+                    console.log("Add repo clicked");
+                    console.log("Adding - ", url);
+                    
+                    let repos = JSON.parse(localStorage.getItem("repos"));
+                    repos.push(url);
+                    window.api.post("closeWindow");
+                });
+            } else {
+                document.getElementsByClassName("btn")[i].addEventListener("click", (e) =>{
+                    e.preventDefault();
+
+                    console.log("Cancelling");
+                    window.api.post("closeWindow");
+                })
+            }
+        }
+    </script>
+</body>
+</html>

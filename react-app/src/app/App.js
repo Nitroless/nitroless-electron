@@ -46,6 +46,10 @@ const App = () => {
                   isAboutActive(true);
                 }
 
+                if (e.target.className.includes("danger")) {
+                  window.api.post("exit")
+                }
+
             }}>
                 <button className={`homeButton btn primary${ homeActive ? " active" : "" }`}>Home</button>
                 <button className={`aboutButton btn primary${ aboutActive ? " active" : "" }`}>About</button>
