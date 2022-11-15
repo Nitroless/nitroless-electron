@@ -67,10 +67,15 @@ const viewModelSlice = createSlice({
         },
 
         removeRepository: (state, action) => {
+            console.log(action, state.allRepos)
             const { url } = action.payload;
-            let repos = state.allRepos.filter((repoURL) => repoURL !== url);
+            let repos = state.allRepos.filter((repo) => repo.url !== url);
             state.repos = repos;
+            repos = repos.map((repo) => {
+                return repo.url
+            });
             localStorage.setItem("repos", JSON.stringify(repos));
+            window.location.reload();
         },
 
         addRepository: (state, action) => {

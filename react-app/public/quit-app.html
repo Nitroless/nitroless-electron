@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quit Nitroless</title>
     <style>
         @import url(https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap);
         @import url(https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap);
-        
+
         @font-face {
             font-family: 'Uni Sans';
-            /* src: url('./assets/fonts/uni-sans/Uni\ Sans\ Heavy.otf'); */
             src: url('../react-app/src/assets/fonts/uni-sans/Uni\ Sans\ Heavy.otf');
             font-weight: 800;
         }
@@ -47,7 +47,7 @@
             padding: 0;
             margin: 0;
         }
-        .add-repository {
+        .quit-app {
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -57,38 +57,14 @@
             align-items: center;
             color: white;
         }
-        .add-repository .inputContainer {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        input {
-            background-color: var(--backgroundColorAlpha);
-            border: none;
-            border-radius: var(--borderRadius);
-            padding: 0.5rem;
-            margin-bottom: 0.5rem;
-            width: 80vw;
-            color: var(--textColor);
-        }
-        ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-            color: var(--textColor);
-            opacity: 0.5; /* Firefox */
-        }
-
-        :-ms-input-placeholder { /* Internet Explorer 10-11 */
-            color: var(--textColor);;
-        }
-
-        ::-ms-input-placeholder { /* Microsoft Edge */
-            color: var(--textColor);;
-        }
-        h4 {
+        span {
             font-family: 'Uni Sans';
             font-weight: 800;
             font-style: italic;
+            font-size: 33px;
+        }
+        .logo {
+            width: 30px;
         }
         .buttons {
             display: flex;
@@ -117,50 +93,15 @@
             background-color: var(--danger-color);
         }
     </style>
-    <title>Add Repository</title>
 </head>
 <body>
-    <div class="add-repository">
-        <div class="inputContainer">
-            <h4>Add Repository</h4>
-            <input type="text" class="repoURL" placeholder="Enter Repository URL Here...">
-            <div class="buttons">
-                <button class="btn primary addRepo">Add Repo</button>
-                <button class="btn danger">Cancel</button>
-            </div>
+    <div class="quit-app">
+        <span><img src="../react-app/src/assets/images/logo/firstLetter.png" alt="Logo" class="logo">ITROLESS</span>
+        <p>Are you sure you want to quit Nitroless?</p>
+        <div class="buttons">
+            <button class="btn danger" onclick="window.api.post('exitApp')">Yes</button>
+            <button class="btn primary" onclick="window.api.post('closeWindow')">No</button>
         </div>
     </div>
-
-    <script>
-        window.api.get("getRepo", (data) => {
-            console.log(`Received ${data} from main process`);
-            document.getElementsByClassName('repoURL')[0].value = data && data[data.length - 1] === "/" ? data : data + "/";
-        });
-
-        for(let i = 0; i < document.getElementsByClassName("btn").length; i++) {
-            if (document.getElementsByClassName("btn")[i].className.includes('addRepo')) {
-                document.getElementsByClassName("btn")[i].addEventListener("click", (e) => {
-                    const url = document.getElementsByClassName('repoURL')[0].value;
-                    e.preventDefault();
-                    console.log("Add repo clicked");
-                    console.log("Adding - ", url);
-                    
-                    let repos = JSON.parse(localStorage.getItem("repos"));
-                    if (repos.includes(url) || repos.includes(url.splice(url.length - 2, 1))) {
-                        repos = repos.filter((repo) => repo !== url);
-                    }
-                    repos.push(url);
-                    window.api.post("closeWindow");
-                });
-            } else {
-                document.getElementsByClassName("btn")[i].addEventListener("click", (e) =>{
-                    e.preventDefault();
-
-                    console.log("Cancelling");
-                    window.api.post("closeWindow");
-                })
-            }
-        }
-    </script>
 </body>
 </html>

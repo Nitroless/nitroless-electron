@@ -2,14 +2,16 @@ import React from 'react'
 import './SidebarItem.css'
 
 const SidebarItem = ({
-    icon,
-    image,
-    title,
-    active,
-    className
+  id,
+  icon,
+  image,
+  title,
+  active,
+  className,
+  onClick
 }) => {
   return (
-    <div className={`sidebar-item${active ? " active" : ""}${className ? " "+className : ""}`}>
+    <div key={id} className={`sidebar-item${active ? " active" : ""}${className ? " "+className : ""}`} onClick={onClick}>
         <div className="active-indicator"></div>
         <div className="sidebar-icon">
             {

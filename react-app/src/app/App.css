@@ -7,7 +7,7 @@
 
 .mainContent {
   margin-left: 72px;
-  margin-right: 42px;
+  margin-right: 12px;
   padding-top: 1.4rem;
   padding-bottom: unset;
   display: flex;
@@ -42,12 +42,16 @@
   width: 40px;
 }
 
-.homeButtons {
+.homeButtons, .repoButtons {
   margin-top: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+}
+
+.repoButtons .btn {
+  width: 6.5rem;
 }
 
 .container {
@@ -56,6 +60,10 @@
   background-color: var(--backgroundSecondaryColorAlpha);
   border-radius: var(--borderRadius);
   margin-bottom: 1rem;
+}
+
+.container.capsule {
+  border-radius: 99rem;
 }
 
 .container.dark {
@@ -70,7 +78,7 @@
   padding: 0.5rem;
   width: 5rem;
   margin: 0 0.3rem;
-  transition: all 250ms ease;
+  transition: background-color 250ms ease;
 }
 
 .btn:hover {

@@ -1,0 +1,38 @@
+.repo {
+    width: 90%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    overflow-x: hidden;
+}
+
+.repo .container {
+    width: 100%;
+}
+
+.repoDetails {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+}
+
+.repoDetails .leftDetails {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.repoDetails .leftDetails img {
+    width: 64px;
+    height: 64px;
+    border-radius: 99rem;
+    background-color: var(--backgroundColor);
+    margin-right: 0.5rem;
+}
+
+.emotes {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+}

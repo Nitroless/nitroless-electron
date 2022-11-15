@@ -1,0 +1,13 @@
+.emoteContainer {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2rem;
+}
+
+img.emote {
+    background-color: var(--backgroundColor);
+    border-radius: var(--borderRadius);
+    width: 38px;
+}

@@ -15,7 +15,9 @@ function isVibrancySupported() {
 	)
 }
 
-let window
+let window;
+let deeplinkingUrl;
+
 function createWindow() {
 	let vibrancy = 'dark'
 
@@ -49,16 +51,65 @@ function createWindow() {
 		vibrancy: vibrancy,
 	})
 
-    isDev ? window.loadURL('http://localhost:3000') : window.loadFile(path.resolve('./build/index.html'))
+    // isDev ? window.loadURL('http://localhost:3000') : window.loadFile(path.resolve('./build/index.html'))
 
     //Test Build
-    //window.loadFile(path.resolve('./build/index.html'))
+    window.loadFile(path.resolve('./build/index.html'))
 
 	// Open links in browser
 	window.webContents.setWindowOpenHandler((details) => {
 		shell.openExternal(details.url)
 		return { action: 'deny' }
 	})
+}
+
+function createAddRepoWindow(argv) {
+    if (process.platform !== 'darwin') {
+        let newRepo;
+        // Find the arg that is our custom protocol url and store it
+        if (argv) {
+            deeplinkingUrl = argv.find((arg) => arg.startsWith('nitroless://'));
+            newRepo = deeplinkingUrl.split('nitroless://add-repository/?url=')[1];
+        }
+
+        let display = screen.getPrimaryDisplay();
+        let width = display.bounds.width;
+        let height = display.bounds.height;
+
+        const win = new BrowserWindow({
+            width: 300,
+            height: 200,
+            x: width - 400,
+            y: height - 275,
+            skipTaskbar: true,
+            frame: false,
+            show: true,
+            backgroundColor: "#36393f70",
+            title: "Add Repository",
+            icon: __dirname + '/Nitroless.png',
+            autoHideMenuBar: true,
+            webPreferences: {
+                nodeIntegration: true,
+                contextIsolation: true,
+                preload: path.join(__dirname, "build/addRepoPreload.js")
+            }
+        });
+
+        ipcMain.on("closeWindow", (event, args) => {
+            win.destroy();
+            window.show();
+            setTimeout(() => {
+                window.webContents.send('reload');
+            }, 150)
+        });
+
+        win.loadFile(path.resolve('./build/add-repo.html'));
+
+        win.webContents.on('did-finish-load', () => {
+            if(newRepo !== undefined)
+            win.webContents.send('getRepo', newRepo);
+        });
+    }
 }
 
 function init() {
@@ -91,11 +142,20 @@ function init() {
 
         ipcMain.on("closeWindow", (event, args) => {
             win.destroy();
+            window.show();
+            setTimeout(() => {
+                window.webContents.send('reload');
+            }, 150)
         });
 
         ipcMain.on("exitApp", (event, args) => {
             app.exit();
         });
+    });
+
+    ipcMain.on("addRepo", () => {
+        window.hide();
+        createAddRepoWindow();
     })
 
     ipcMain.on("minimize", (e) => {
@@ -156,6 +216,10 @@ function init() {
 
                     ipcMain.on("closeWindow", (event, args) => {
                         win.destroy();
+                        window.show();
+                        setTimeout(() => {
+                            window.webContents.send('reload');
+                        }, 150)
                     });
 
                     ipcMain.on("exitApp", (event, args) => {
@@ -182,69 +246,30 @@ app.on('activate', () => {
 	}
 })
 
-let deeplinkingUrl;
-
 if (isDev && process.platform === 'win32') {
     // Set the path of electron.exe and your app.
     // These two additional parameters are only available on windows.
     // Setting this is required to get this working in dev mode.
     app.setAsDefaultProtocolClient('nitroless', process.execPath, [
-      path.resolve(process.argv[1])
+        path.resolve(process.argv[1])
     ]);
-  } else {
+} else {
     app.setAsDefaultProtocolClient('nitroless');
-  }
+}
   
-  // Force single application instance
-  const gotTheLock = app.requestSingleInstanceLock();
+// Force single application instance
+const gotTheLock = app.requestSingleInstanceLock();
   
-  if (!gotTheLock) {
+if (!gotTheLock) {
     app.quit();
     return;
-  } else {
+} else {
     app.on('second-instance', (e, argv) => {
-      if (process.platform !== 'darwin') {
-        // Find the arg that is our custom protocol url and store it
-        deeplinkingUrl = argv.find((arg) => arg.startsWith('nitroless://'));
-        const newRepo = deeplinkingUrl.split('nitroless://add-repository/?url=')[1];
+        createAddRepoWindow(argv);
 
-        let display = screen.getPrimaryDisplay();
-        let width = display.bounds.width;
-        let height = display.bounds.height;
-
-        const win = new BrowserWindow({
-            width: 300,
-            height: 200,
-            x: width - 400,
-            y: height - 275,
-            skipTaskbar: true,
-            frame: false,
-            show: true,
-            backgroundColor: "#36393f70",
-            title: "Add Repository",
-            icon: __dirname + '/Nitroless.png',
-            autoHideMenuBar: true,
-            webPreferences: {
-                nodeIntegration: true,
-                contextIsolation: true,
-                preload: path.join(__dirname, "build/addRepoPreload.js")
-            }
-        });
-
-        ipcMain.on("closeWindow", (event, args) => {
-            win.destroy();
-        });
-
-        win.loadFile(path.resolve('./build/add-repo.html'));
-
-        win.webContents.on('did-finish-load', () => {
-            win.webContents.send('getRepo', newRepo);
-        });
-      }
-  
-      if (window) {
-        if (window.isMinimized()) window.restore();
-        window.focus();
-      }
+        if (window) {
+            if (window.isMinimized()) window.restore();
+            window.focus();
+        }
     });
-  }
+}
