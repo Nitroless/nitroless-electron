@@ -38,6 +38,10 @@
   align-items: center;
   justify-content: flex-start;
   overflow-y: auto;
+  width: 90%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  overflow-x: hidden;
 }
 
 .logoContainer {
@@ -70,7 +74,7 @@
 }
 
 .container {
-  width: 90%;
+  width: 100%;
   padding: 1rem;
   background-color: var(--backgroundSecondaryColorAlpha);
   border-radius: var(--borderRadius);
@@ -117,8 +121,14 @@
   flex-direction: row;
   align-items: center;
   font-weight: bold;
+  margin-bottom: 0.3rem;
 }
 
 .title i {
   margin-right: 0.3rem;
+}
+
+.emotes {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto;
 }

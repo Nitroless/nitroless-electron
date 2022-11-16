@@ -146,10 +146,13 @@
                     console.log("Adding - ", url);
                     
                     let repos = JSON.parse(localStorage.getItem("repos"));
-                    if (repos.includes(url) || repos.includes(url.splice(url.length - 2, 1))) {
+                    if (repos.includes(url) || repos.includes(url + "/")) {
                         repos = repos.filter((repo) => repo !== url);
                     }
                     repos.push(url);
+
+                    localStorage.setItem("repos", JSON.stringify(repos));
+                    
                     window.api.post("closeWindow");
                 });
             } else {

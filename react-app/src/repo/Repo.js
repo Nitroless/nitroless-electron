@@ -1,11 +1,15 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import ClipLoader from 'react-spinners/ClipLoader';
+import { addEmoteToFrequentlyUsed, setCopiedFalse, setCopiedTrue, setSelectedEmote } from '../app/viewModel';
 import Emote from '../emote/Emote';
 
 import './Repo.css';
 
 const Repo = () => {
     const selectedRepo = useSelector((state) => state.viewModel.selectedRepo);
+    const [emoteLoaded, setEmoteLoaded] = useState(false);
+    const dispatch = useDispatch();
 
     return (
         <div className="repo">
@@ -26,10 +30,58 @@ const Repo = () => {
                     </div>
                 </div>
             </div>
+            {
+                selectedRepo.favouriteEmotes.length > 0
+                ?
+                (
+                    <div className="container">
+                        <div className="title">
+                            <i className="fa-solid fa-star"></i>
+                            <span>Favourites</span>
+                        </div>
+                        <div className="content emotes">
+                            {
+                                selectedRepo.favouriteEmotes.map((emote) => {
+                                    return (
+                                        <div 
+                                            key={emote} 
+                                            className='emoteContainer' 
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                dispatch(setCopiedTrue());
+                                                setTimeout(async () => {
+                                                    await window.navigator.clipboard.writeText(emote);
+                                                    dispatch(addEmoteToFrequentlyUsed({ emote: emote }));
+                                                });
+                                                setTimeout(() => {
+                                                    dispatch(setCopiedFalse());
+                                                }, 1200);
+                                            }}
+                                            onContextMenu={(e) => {
+                                                dispatch(setSelectedEmote({ url: selectedRepo.url, emote: emote }));
+                                            }}
+                                        >
+                                            <ClipLoader
+                                                color="#5865F2"
+                                                loading={!emoteLoaded}
+                                                speedMultiplier={0.4}
+                                            />
+                                            <img src={ emote } alt={ emote } className="emote" style={ emoteLoaded ? {} : { display: 'none' } } onLoad={ () => setEmoteLoaded(true) } />
+                                        </div>
+                                    )
+                                })
+                            }
+                        </div>
+                    </div>
+                )
+                :
+                ""
+            }
+            
             <div className="container emotes">
                 {
                     selectedRepo.data.emotes.map((emote) => {
-                        return <Emote emoteData={ { name: emote.name, type: emote.type } } />
+                        return <Emote emoteData={ { name: emote.name, type: emote.type } } contextMenu={true} />
                     })
                 }
             </div>

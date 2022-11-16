@@ -76,7 +76,7 @@ const viewModelSlice = createSlice({
 
         setActiveRepository: (state, action) => {
             const { url, data } = action.payload;
-            state.selectedRepo = { active: true, url: url, data: data, favouriteEmotes: JSON.parse(localStorage.getItem(url)) }
+            state.selectedRepo = { active: true, url: url, data: data, favouriteEmotes: JSON.parse(localStorage.getItem(url)) && JSON.parse(localStorage.getItem(url)).length > 0 ? JSON.parse(localStorage.getItem(url)) : [] }
         },
 
         setSelectedEmote: (state, action) => {
@@ -89,7 +89,7 @@ const viewModelSlice = createSlice({
         },
 
         deselectRepository: (state) => {
-            state.selectedRepo = { active: false, url: "", data: {} } 
+            state.selectedRepo = { active: false, url: "", data: {}, favouriteEmotes: [] } 
         },
 
         removeRepository: (state, action) => {
@@ -124,16 +124,19 @@ const viewModelSlice = createSlice({
             }
 
             if (repoFavouriteEmotes.length > 0) {
+                if (repoFavouriteEmotes.filter((frEmote) => frEmote === emote).length > 0) {
+                    repoFavouriteEmotes = repoFavouriteEmotes.filter((fremote) => fremote !== emote);
+                }
                 repoFavouriteEmotes.unshift(emote);
             } else {
                 repoFavouriteEmotes = [emote];
             }
-
-            state.selectedRepo.favouriteEmotes = repoFavouriteEmotes;
-            state.favouriteEmotes = favouriteEmotes;
-
+            
             localStorage.setItem("favouriteEmotes", JSON.stringify(favouriteEmotes));
             localStorage.setItem(url, JSON.stringify(repoFavouriteEmotes));
+
+            state.selectedRepo.favouriteEmotes = JSON.parse(localStorage.getItem(url));
+            state.favouriteEmotes = JSON.parse(localStorage.getItem("favouriteEmotes"));
         },
 
         removeEmoteFromFavourites: (state, action) => {
@@ -142,11 +145,11 @@ const viewModelSlice = createSlice({
             let favouriteEmotes = state.favouriteEmotes.filter((favEmote) => favEmote !== emote);
             let repoFavouriteEmotes = state.selectedRepo.favouriteEmotes.filter((favEmote) => favEmote !== emote);
 
-            state.favouriteEmotes = favouriteEmotes;
-            state.selectedRepo.favouriteEmotes = repoFavouriteEmotes;
-
             localStorage.setItem("favouriteEmotes", JSON.stringify(favouriteEmotes));
             localStorage.setItem(url, JSON.stringify(repoFavouriteEmotes));
+
+            state.selectedRepo.favouriteEmotes = JSON.parse(localStorage.getItem(url));
+            state.favouriteEmotes = JSON.parse(localStorage.getItem("favouriteEmotes"));
         },
 
         addEmoteToFrequentlyUsed: (state, action) => {
@@ -160,18 +163,17 @@ const viewModelSlice = createSlice({
                 }
 
                 if (frequentlyUsed.filter((frEmote) => frEmote === emote).length > 0) {
-                    let index = frequentlyUsed.indexOf(emote);
-                    frequentlyUsed = frequentlyUsed.splice(index, 1);
+                    frequentlyUsed = frequentlyUsed.filter((fremote) => fremote !== emote);
                 }
 
                 frequentlyUsed.unshift(emote);
             } else {
                 frequentlyUsed = [emote];
             }
-
-            state.frequentlyUsed = frequentlyUsed;
-
+            
             localStorage.setItem("frequentlyUsed", JSON.stringify(frequentlyUsed));
+
+            state.frequentlyUsed = JSON.parse(localStorage.getItem("frequentlyUsed"));
         }
     }, 
     extraReducers: (builder) => {

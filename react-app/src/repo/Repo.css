@@ -31,8 +31,3 @@
     background-color: var(--backgroundColor);
     margin-right: 0.5rem;
 }
-
-.emotes {
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto;
-}

@@ -6,10 +6,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import './Emote.css'
 import { addEmoteToFrequentlyUsed, setCopiedFalse, setCopiedTrue, setSelectedEmote } from '../app/viewModel';
 
-const Emote = ({ emoteData }) => {
+const Emote = ({ emoteData, emote, contextMenu }) => {
     const url = useSelector((state) => state.viewModel.selectedRepo.url);
     const path = useSelector((state) => state.viewModel.selectedRepo.data.path);
-    const { name, type } = emoteData;
 
     const [emoteLoaded, setEmoteLoaded] = useState(false);
     const [emoteURL, setEmoteURL] = useState("");
@@ -17,10 +16,13 @@ const Emote = ({ emoteData }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setEmoteURL("" + url + "/" + path + "/" + name + "." + type);
-
-        return () => setEmoteURL("");
-    }, [url, path, name, type]);
+        if (emoteData) {
+            const { name, type } = emoteData;
+            setEmoteURL("" + url + "/" + path + "/" + name + "." + type);
+        } else {
+            setEmoteURL(emote);
+        }
+    }, [url, path, emoteData, emote]);
 
     return (
         <div 
@@ -39,7 +41,9 @@ const Emote = ({ emoteData }) => {
             }}
             onContextMenu={(e) => {
                 e.preventDefault();
-                dispatch(setSelectedEmote({ url: url, path: path, emote: emoteData }))
+                if (contextMenu) {
+                    dispatch(setSelectedEmote({ url: url, path: path, emote: emoteData ? emoteData : emoteURL }));
+                }
             }}
         >
             <ClipLoader
@@ -47,7 +51,7 @@ const Emote = ({ emoteData }) => {
                 loading={!emoteLoaded}
                 speedMultiplier={0.4}
             />
-            <img src={ emoteURL } alt={ name } className="emote" style={ emoteLoaded ? {} : { display: 'none' } } onLoad={ () => setEmoteLoaded(true) } />
+            <img src={ emoteURL } alt={ emoteData ? emoteData.name : emoteURL } className="emote" style={ emoteLoaded ? {} : { display: 'none' } } onLoad={ () => setEmoteLoaded(true) } />
         </div>
     )
 }
