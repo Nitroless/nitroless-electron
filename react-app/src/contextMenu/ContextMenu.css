@@ -1,0 +1,70 @@
+.contextMenu {
+    position: fixed;
+    backdrop-filter: blur(20px);
+    background-color: var(--backgroundTertiaryColorAlpha);
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 512px;
+    height: 512px;
+    opacity: 0;
+    transform: scale(0.7);
+    transition: all 250ms ease;
+    pointer-events: none;
+}
+
+.contextMenu.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: unset;
+}
+
+.contextMenu .emoteContainer {
+    margin-bottom: 0.5rem;
+}
+
+.contextMenu .emoteContainer img {
+    width: 48px;
+    height: 48px;
+}
+
+.contextMenu .contextMenuButtons {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--backgroundTertiaryColor);
+    border-radius: var(--borderRadius);
+}
+
+.contextMenu .contextMenuButtons .contextMenuButton {
+    border: none;
+    background-color: transparent;
+    text-align: left;
+    color: var(--textColor);
+    padding: 0.75rem;
+    transition: all 250ms ease;
+    border-bottom: 1px solid #fff2;
+    cursor: pointer;
+}
+
+.contextMenu .contextMenuButtons .contextMenuButton:first-child {
+    border-top-left-radius: var(--borderRadius);
+    border-top-right-radius: var(--borderRadius);
+}
+
+.contextMenu .contextMenuButtons .contextMenuButton:last-child {
+    border-bottom-left-radius: var(--borderRadius);
+    border-bottom-right-radius: var(--borderRadius);
+    border-bottom: unset;
+}
+
+.contextMenu .contextMenuButtons .contextMenuButton:hover {
+    background-color: var(--backgroundColor);
+}
+
+.contextMenu .contextMenuButtons .contextMenuButton i {
+    margin-right: 0.5rem;
+}

@@ -11,6 +11,7 @@ import Home from '../home/Home';
 
 import logo from '../assets/images/logo/firstLetter.png'
 import Repo from '../repo/Repo';
+import ContextMenu from '../contextMenu/ContextMenu';
 
 const App = () => {
   const [homeActive, isHomeActive] = useState(true);
@@ -18,6 +19,8 @@ const App = () => {
 
   const allRepos = useSelector((state) => state.viewModel.allRepos);
   const selectedRepo = useSelector((state) => state.viewModel.selectedRepo);
+  const copied = useSelector((state) => state.viewModel.copied);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -29,6 +32,8 @@ const App = () => {
 
   return (
     <div className="App">
+      <div className={`copied${copied ? " active" : ""}`}>Copied</div>
+      <ContextMenu />
       <Sidebar />
       <div className="mainContent">
         <div className="container dark" style={{width: "90%"}}>

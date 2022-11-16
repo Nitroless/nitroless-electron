@@ -1,4 +1,5 @@
 .emoteContainer {
+    display: relative;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -6,7 +7,7 @@
     padding: 0.2rem;
 }
 
-img.emote {
+.emoteContainer img.emote {
     background-color: var(--backgroundColor);
     border-radius: var(--borderRadius);
     width: 38px;

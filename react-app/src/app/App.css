@@ -5,6 +5,21 @@
   height: 100vh;
 }
 
+.copied {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%, -70px);
+  top: 10px;
+  border-radius: var(--borderRadius);
+  background-color: var(--backgroundTertiaryColor);
+  padding: 1rem;
+  transition: transform 250ms ease;
+}
+
+.copied.active {
+  transform: translate(-50%, 0px);
+}
+
 .mainContent {
   margin-left: 72px;
   margin-right: 12px;

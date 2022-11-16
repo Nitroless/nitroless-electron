@@ -16,6 +16,8 @@ axios.get("https://nitroless.app/default.json").then((res) => {
 const initialState = {
     loading:            true,
 
+    copied:             false,
+
     allRepos:           JSON.parse(localStorage.getItem('repos')) && JSON.parse(localStorage.getItem('repos')).length > 0 
                         ? JSON.parse(localStorage.getItem('repos')) 
                         : [],
@@ -33,6 +35,13 @@ const initialState = {
                             url: "",
                             favouriteEmotes: [],
                             data: {}
+                        },
+    
+    selectedEmote:      {
+                            active: false,
+                            repoURL: "",
+                            repoPath: "",
+                            emote: {}
                         }
 }
 
@@ -53,8 +62,16 @@ const viewModelSlice = createSlice({
     name: 'viewModel',
     initialState,
     reducers: {
+        setCopiedTrue: (state) => {
+            state.copied = true
+        },
+
+        setCopiedFalse: (state) => {
+            state.copied = false
+        },
+
         setLoading: (state) => {
-            state.loading = !state.loading;
+            state.loading = !state.loading
         },
 
         setActiveRepository: (state, action) => {
@@ -62,8 +79,17 @@ const viewModelSlice = createSlice({
             state.selectedRepo = { active: true, url: url, data: data, favouriteEmotes: JSON.parse(localStorage.getItem(url)) }
         },
 
+        setSelectedEmote: (state, action) => {
+            const { url, path, emote } = action.payload;
+            state.selectedEmote = { active: true, repoURL: url, repoPath: path, emote: emote };
+        },
+
+        deselectEmote: (state) => {
+            state.selectedEmote = { active: false, repoURL: "", repoPath: "", emote: {} }
+        },
+
         deselectRepository: (state) => {
-            state.selectedRepo = { active: false, url: "", data: {} }
+            state.selectedRepo = { active: false, url: "", data: {} } 
         },
 
         removeRepository: (state, action) => {
@@ -168,6 +194,6 @@ const viewModelSlice = createSlice({
     }
 });
 
-export const { setLoading, setActiveRepository, deselectRepository, removeRepository, addRepository, addEmoteToFavourite, removeEmoteFromFavourites, addEmoteToFrequentlyUsed } = viewModelSlice.actions;
+export const { setLoading, setActiveRepository, deselectRepository, removeRepository, addRepository, addEmoteToFavourite, removeEmoteFromFavourites, addEmoteToFrequentlyUsed, setCopiedTrue, setCopiedFalse, setSelectedEmote, deselectEmote } = viewModelSlice.actions;
 
 export default viewModelSlice.reducer;
