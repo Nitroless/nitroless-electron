@@ -1,36 +1,14 @@
-const { BrowserWindow } = require('electron-acrylic-window');
+const { BrowserWindow } = require('glasstron');
 const { app, shell, Tray, Menu, screen, ipcMain, dialog } = require('electron');
-
-const isDev = require('electron-is-dev');
+app.commandLine.appendSwitch("enable-transparent-visuals");
 
 const trayWindow = require("electron-tray-window");
-const os = require('os');
 const path = require('path');
-
-function isVibrancySupported() {
-	// Windows 10 or greater
-	return (
-		process.platform === 'win32' &&
-		parseInt(os.release().split('.')[0]) >= 10
-	)
-}
 
 let window;
 let deeplinkingUrl;
 
 function createWindow() {
-	let vibrancy = 'dark'
-
-	if (isVibrancySupported()) {
-		vibrancy = {
-			theme: '#36393f70',
-			effect: 'acrylic',
-			useCustomWindowRefreshMethod: true,
-			disableOnBlur: true,
-			debug: false,
-		}
-	}
-
 	window = new BrowserWindow({
 		width: 512,
 		height: 512,
@@ -48,9 +26,10 @@ function createWindow() {
             webSecurity: false,
             preload: path.join(__dirname, "build/preload.js")
 		},
-		vibrancy: vibrancy,
 	})
 
+    window.blurType = 'acrylic';
+    window.setBlur(true);
     // isDev ? window.loadURL('http://localhost:3000') : window.loadFile(path.resolve('./build/index.html'))
 
     //Test Build
@@ -95,6 +74,9 @@ function createAddRepoWindow(argv) {
             }
         });
 
+        win.blurType = 'acrylic';
+        win.setBlur(true);
+
         ipcMain.on("closeWindow", (event, args) => {
             win.destroy();
             window.show();
@@ -137,6 +119,9 @@ function init() {
                 preload: path.join(__dirname, "build/quitAppPreload.js")
             }
         });
+
+        win.blurType = 'acrylic';
+        win.setBlur(true);
 
         win.loadFile(path.resolve('./build/quit-app.html'));
 
@@ -212,6 +197,9 @@ function init() {
 						}
                     });
 
+                    win.blurType = 'acrylic';
+                    win.setBlur(true);
+
                     win.loadFile(path.resolve('./build/quit-app.html'));
 
                     ipcMain.on("closeWindow", (event, args) => {
@@ -246,16 +234,18 @@ app.on('activate', () => {
 	}
 })
 
-if (isDev && process.platform === 'win32') {
-    // Set the path of electron.exe and your app.
-    // These two additional parameters are only available on windows.
-    // Setting this is required to get this working in dev mode.
-    app.setAsDefaultProtocolClient('nitroless', process.execPath, [
-        path.resolve(process.argv[1])
-    ]);
-} else {
-    app.setAsDefaultProtocolClient('nitroless');
-}
+// if (isDev && process.platform === 'win32') {
+//     // Set the path of electron.exe and your app.
+//     // These two additional parameters are only available on windows.
+//     // Setting this is required to get this working in dev mode.
+//     app.setAsDefaultProtocolClient('nitroless', process.execPath, [
+//         path.resolve(process.argv[1])
+//     ]);
+// } else {
+//     app.setAsDefaultProtocolClient('nitroless');
+// }
+
+app.setAsDefaultProtocolClient('nitroless');
   
 // Force single application instance
 const gotTheLock = app.requestSingleInstanceLock();

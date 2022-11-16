@@ -11,6 +11,14 @@
   },
   "build": {
     "appId": "nitroless",
+    "files": [
+      "build/**/*",
+      "react-app/**/*",
+      "index.js",
+      "icon.ico",
+      "Nitroless.png",
+      "TrayIcon.png"
+    ],
     "win": {
       "target": [
         "nsis"
@@ -28,12 +36,13 @@
   "author": "Paras KCD",
   "license": "ISC",
   "dependencies": {
-    "electron": "^21.2.2",
-    "electron-acrylic-window": "^0.5.11",
-    "electron-tray-window": "^1.2.5"
+    "electron-tray-window": "^1.2.5",
+    "glasstron": "^0.1.1"
   },
   "devDependencies": {
+    "@electron/rebuild": "^3.2.10",
     "concurrently": "^7.5.0",
+    "electron": "^21.2.2",
     "electron-builder": "^23.6.0",
     "electron-is-dev": "^2.0.0",
     "wait-on": "^6.0.1"

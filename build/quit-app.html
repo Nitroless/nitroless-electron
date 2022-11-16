@@ -12,18 +12,18 @@
         @font-face {
             font-family: 'Uni Sans';
             /* src: url('./assets/fonts/uni-sans/Uni\ Sans\ Heavy.otf'); */
-            src: url('../react-app/src/assets/fonts/uni-sans/Uni\ Sans\ Heavy.otf');
+            src: url('./static/assets/fonts/uni-sans/Uni\ Sans\ Heavy.otf');
             font-weight: 800;
         }
         @font-face {
             font-family: 'Uni Sans';
-            src: url('../react-app/src/assets/fonts/uni-sans/Uni\ Sans\ Heavy\ Italic.otf');
+            src: url('./static/assets/fonts/uni-sans/Uni\ Sans\ Heavy\ Italic.otf');
             font-weight: 800;
             font-style: italic;
         }
         @font-face {
             font-family: 'Uni Sans';
-            src: url('../react-app/src/assets/fonts/uni-sans/Uni\ Sans\ Thin.otf');
+            src: url('./static/assets/fonts/uni-sans/Uni\ Sans\ Thin.otf');
             font-weight: 200;
         }
 
@@ -97,7 +97,7 @@
 </head>
 <body>
     <div class="quit-app">
-        <span><img src="../react-app/src/assets/images/logo/firstLetter.png" alt="Logo" class="logo">ITROLESS</span>
+        <span><img src="./static/assets/images/logo/firstLetter.png" alt="Logo" class="logo">ITROLESS</span>
         <p>Are you sure you want to quit Nitroless?</p>
         <div class="buttons">
             <button class="btn danger" onclick="window.api.post('exitApp')">Yes</button>
