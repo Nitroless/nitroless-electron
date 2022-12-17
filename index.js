@@ -30,7 +30,7 @@ function createWindow() {
 
     window.blurType = 'acrylic';
     window.setBlur(true);
-    // isDev ? window.loadURL('http://localhost:3000') : window.loadFile(path.resolve('./build/index.html'))
+    // window.loadURL('http://localhost:3000')
 
     //Test Build
     window.loadFile(path.resolve('./build/index.html'))

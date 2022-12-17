@@ -106,8 +106,12 @@ const viewModelSlice = createSlice({
 
         addRepository: (state, action) => {
             const { url } = action.payload;
+            let URL = url;
+            if (url[url.length - 1] !== '/') {
+                URL = url + '/'
+            }
             let repos = state.allRepos;
-            repos.push(url);
+            repos.push(URL);
             state.repos = repos;
             localStorage.setItem("repos", repos);
         },

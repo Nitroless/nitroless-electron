@@ -149,7 +149,13 @@
                     if (repos.includes(url) || repos.includes(url + "/")) {
                         repos = repos.filter((repo) => repo !== url);
                     }
-                    repos.push(url);
+
+                    var URL = url;
+                    if(url[url.length - 1] !== '/') {
+                        URL = url + '/'
+                    }
+                    
+                    repos.push(URL);
 
                     localStorage.setItem("repos", JSON.stringify(repos));
                     
